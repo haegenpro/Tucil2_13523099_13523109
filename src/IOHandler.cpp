@@ -4,7 +4,7 @@
 using namespace std;
 using namespace cv;
 
-class IOHandler {
+/*class IOHandler {
     private:
         string filePath;
         Mat imageRGB;
@@ -14,5 +14,5 @@ class IOHandler {
         int minBlockSize;
         Mat compressedImage;
     public:
-        
-};
+
+};*/

@@ -4,12 +4,23 @@
 int main() {
     cout << "DPW QuadTree Compression Program" << endl;
     cout << "--------------------------------" << endl;
+    cout << "Enter the absolute image path: ";
+    string path;
+    cin >> path;
+    Mat image = imread(path);
+    if (image.empty()) {
+        cerr << "Error: Could not open or find the image!" << endl;
+        return -1;
+    }
+    Mat imageRGB;
+    cvtColor(image, imageRGB, COLOR_BGR2RGB);
+    cout << "Image loaded successfully!" << endl;
     cout << "Pick a compression method:" << endl;
     cout << "1. QuadTree Compression with Variance" << endl;
     cout << "2. QuadTree Compression with Mean Absolute Deviation" << endl;
     cout << "3. QuadTree Compression with Max Pixel Difference" << endl;
     cout << "4. QuadTree Compression with Entropy" << endl;
-    cout << "Insert a compression method (1-4): ";
+    cout << "Enter a compression method (1-4): ";
     int method;
     try {
         cin >> method;
@@ -20,7 +31,7 @@ int main() {
         cerr << "Error: " << e.what() << endl;
         return -1;
     }
-    cout << "Insert treshold value: ";
+    cout << "Treshold value: ";
     double threshold;
     try {
         cin >> threshold;
@@ -31,7 +42,7 @@ int main() {
         cerr << "Error: " << e.what() << endl;
         return -1;
     }
-    cout << "Insert the minimum block size: ";
+    cout << "Minimum block size: ";
     int minBlockSize;
     try {
         cin >> minBlockSize;
@@ -42,27 +53,40 @@ int main() {
         cerr << "Error: " << e.what() << endl;
         return -1;
     }
-    cout << "Insert the image path for compression: ";
-    string path;
-    cin >> path;
-    Mat image = imread(path);
-    if (image.empty()) {
-        cerr << "Error: Could not open or find the image!" << endl;
+    cout << "Compression ratio: ";
+    double compressionRatio;
+    try {
+        cin >> compressionRatio;
+        if (compressionRatio <= 0) {
+            throw invalid_argument("Compression ratio must be positive.");
+        }
+    } catch (const invalid_argument& e) {
+        cerr << "Error: " << e.what() << endl;
         return -1;
     }
-
-    Mat imageRGB;
-    cvtColor(image, imageRGB, COLOR_BGR2RGB);
-
-    // Example: Access and print the RGB values of the pixel at (0,0)
-    /* Vec3b pixel = imageRGB.at<Vec3b>(0, 0);
-    cout << "Pixel at (0,0): R = " << static_cast<int>(pixel[0])
-            << ", G = " << static_cast<int>(pixel[1])
-            << ", B = " << static_cast<int>(pixel[2]) << endl;
+    string outputPath = path;
+    cout << "Enter the absolute output path: ";
+    cin >> outputPath;
     
-    imshow("Original Image (BGR)", image);
+
+    double timeStart = (double)getTickCount();
+    // Process the image using the selected method
+    Functions functions;
+    Mat compressedImage = functions.CheckFunction(method, imageRGB, threshold, minBlockSize);
+    if (compressedImage.empty()) {
+        cerr << "Error: Compression failed!" << endl;
+        return -1;
+    }
+    double timeEnd = (double)getTickCount();
+    double timeElapsed = (timeEnd - timeStart) / getTickFrequency();
+    cout << "Time elapsed: " << timeElapsed << " seconds" << endl;
+    double initialSize = image.total() * image.elemSize();
+    cout << "Initial image size: " << initialSize / 1024 << " KB" << endl;
+    double compressedSize = 0.0;
+    cout << "Compressed image size: " << compressedSize / 1024 << " KB" << endl;
+    cout << "Compression ratio: " << (initialSize / compressedSize) << endl;
+
     imshow("Converted Image (RGB)", imageRGB);
-    */
     waitKey(0);
     return 0;
 }
