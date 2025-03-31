@@ -1,5 +1,4 @@
-#include "Functions.cpp"
-#include "IOHandler.cpp"
+#include "Functions.hpp"
 
 int main() {
     cout << "DPW QuadTree Compression Program" << endl;
@@ -80,12 +79,12 @@ int main() {
     double timeEnd = (double)getTickCount();
     double timeElapsed = (timeEnd - timeStart) / getTickFrequency();
     cout << "Time elapsed: " << timeElapsed << " seconds" << endl;
-    double initialSize = image.total() * image.elemSize();
+    double initialSize = (double) image.total() * image.elemSize();
     cout << "Initial image size: " << initialSize / 1024 << " KB" << endl;
-    double compressedSize = 0.0;
+    double compressedSize = (double) compressedImage.total() * compressedImage.elemSize();
     cout << "Compressed image size: " << compressedSize / 1024 << " KB" << endl;
-    cout << "Compression ratio: " << (initialSize / compressedSize) << endl;
-
+    double cr = functions.CalcCompressionRatio(imageRGB, compressedImage);
+    cout << "Compression ratio: " << cr << endl;
     imshow("Converted Image (RGB)", imageRGB);
     waitKey(0);
     return 0;
