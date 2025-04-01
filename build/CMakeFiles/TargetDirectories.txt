@@ -1,3 +1,0 @@
-C:/Users/haege/OneDrive/Documents/vscode/ITB/Semester 4/Tucil2_13523099_13523109/build/CMakeFiles/DPW_Quadtree.dir
-C:/Users/haege/OneDrive/Documents/vscode/ITB/Semester 4/Tucil2_13523099_13523109/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/haege/OneDrive/Documents/vscode/ITB/Semester 4/Tucil2_13523099_13523109/build/CMakeFiles/ZERO_CHECK.dir

@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/opencv/build/include"
+                "C:/opencv/build/include",
+                "C:\\Users\\haege\\Downloads\\libjpeg-turbo-3.1.0-gcc.exe"
             ],
             "defines": [
                 "_DEBUG",
