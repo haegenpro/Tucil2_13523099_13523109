@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <cstring>
 #include <iostream>
-#include "../pixel/pixel.h"
+#include "../pixel/pixel.hpp"
 
 namespace fs = std::filesystem;
 
