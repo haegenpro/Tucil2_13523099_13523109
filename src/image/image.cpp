@@ -2,7 +2,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../include/stb_image.h"
 #include "../include/stb_image_write.h"
-#include "image.h"
+#include "image.hpp"
 
 Image::Image(const fs::path& filePath) : data(nullptr), width(0), height(0), channels(0), fileSize(0) {
     load(filePath);
