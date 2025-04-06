@@ -18,10 +18,15 @@ private:
     int nodeCount = 0;
 
     Pixel meanColorBlock(int x, int y, int width, int height);
+    
 public:
     QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize);
     ~QuadTree();
     void construct();
+    void render(Image& output) const;
+    int getTotalNodes() const;
+    int getTotalLeaves() const;
+    int getDepth() const;
 };
 
 #endif

@@ -17,6 +17,8 @@ public:
 
     Node(int x, int y, int width, int height);
     ~Node();
+    bool isSplit() const;
+    bool canSplit(int minBlockSize) const;
 };
 
 #endif

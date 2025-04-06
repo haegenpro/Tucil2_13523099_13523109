@@ -13,3 +13,11 @@ Node::~Node() {
         delete childNode;
     }
 }
+
+bool Node::isSplit() const {
+    return !isLeafNode;
+}
+
+bool Node::canSplit(int minBlockSize) const {
+    return (width * height >= minBlockSize);
+}
