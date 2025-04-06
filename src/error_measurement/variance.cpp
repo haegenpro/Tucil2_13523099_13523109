@@ -66,6 +66,6 @@ double Variance::computeBlockError(const Image& image, int x, int y, int width, 
     return (varianceRed + varianceGreen + varianceBlue) / 3;
 }
 
-bool Variance::thresholdWithinBound(double threshold) {
+bool Variance::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 16256.25;
 }

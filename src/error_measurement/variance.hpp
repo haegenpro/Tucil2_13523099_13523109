@@ -9,7 +9,7 @@ private:
     long long sumColorSquaredBlock(const Image& image, int x, int y, int width, int height, Channel c) const;
 public:
     double computeBlockError(const Image& image, int x, int y, int width, int height) const override;
-    bool thresholdWithinBound(double threshold);
+    bool ThresholdWithinBound(double threshold) override;
 };
 
 #endif

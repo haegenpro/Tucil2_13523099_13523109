@@ -50,6 +50,6 @@ double MAD::computeBlockError(const Image& image, int x, int y, int width, int h
     return (madRed + madGreen + madBlue) / 3;
 }
 
-bool MAD::thresholdWithinBound(double threshold) {
+bool MAD::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 127.5;
 }

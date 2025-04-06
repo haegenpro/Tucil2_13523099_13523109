@@ -30,6 +30,6 @@ double MPD::computeBlockError(const Image& image, int x, int y, int width, int h
     return static_cast<double>(redDif + greenDif + blueDif) / 3;
 }
 
-bool MPD::thresholdWithinBound(double threshold) {
+bool MPD::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 255;
 }

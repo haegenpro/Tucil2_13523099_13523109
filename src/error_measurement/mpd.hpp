@@ -7,7 +7,7 @@
 class MPD : public EMM {
 public:
     double computeBlockError(const Image& image, int x, int y, int width, int height) const override;
-    bool thresholdWithinBound(double threshold);
+    bool ThresholdWithinBound(double threshold) override;
 };
 
 #endif

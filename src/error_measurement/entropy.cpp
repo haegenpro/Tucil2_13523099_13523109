@@ -40,6 +40,6 @@ double Entropy::computeBlockError(const Image& image, int x, int y, int width, i
     return (entropyRed + entropyGreen + entropyBlue) / 3;
 }
 
-bool Entropy::thresholdWithinBound(double threshold) {
+bool Entropy::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 8;
 }
