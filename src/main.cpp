@@ -1,4 +1,4 @@
-#include "Functions.hpp"
+#include "../Functions.hpp"
 
 int main() {
     cout << "DPW QuadTree Compression Program" << endl;

@@ -5,6 +5,8 @@
 #include "../error_measurement/emm.hpp"
 #include "../image/image.hpp"
 #include "node.hpp"
+#include <algorithm>
+#include <functional>
 
 class QuadTree {
 private:

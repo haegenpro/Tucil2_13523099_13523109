@@ -1,6 +1,4 @@
 #include "quadtree.hpp"
-#include <algorithm>
-#include <functional>
 
 QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize) : image(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize) {}
 
