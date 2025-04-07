@@ -6,8 +6,11 @@
 #include <cmath>
 
 class SSIM : public EMM {
+private:
+    static double computeChannelSSIM(double sumRef, double sumTest, double sumRef2, double sumTest2, double sumRefTest, int count);
+    double meanColorBlock(const Image& image, int x, int y, int width, int height, Channel c) const;
 public:
-    double computeBlockError(const Image& refImg, const Image& testImg, int x, int y, int width, int height) const;
+    double computeBlockError(const Image& refImg, int x, int y, int width, int height) const override;
     bool ThresholdWithinBound(double threshold) override;
 };
 

@@ -3,6 +3,7 @@
 #include "error_measurement/mpd.hpp"
 #include "error_measurement/variance.hpp"
 #include "error_measurement/entropy.hpp"
+#include "error_measurement/ssim.hpp"
 
 using namespace std;
 
@@ -23,11 +24,12 @@ int main() {
     cout << "2. QuadTree Compression with Max Pixel Difference" << endl;
     cout << "3. QuadTree Compression with Variance" << endl;
     cout << "4. QuadTree Compression with Entropy" << endl;
-    cout << "Enter a compression method (1-4): ";
+    cout << "5. QuadTree Compression with Structural Similarity Index" << endl;
+    cout << "Enter a compression method (1-5): ";
     int method;
     cin >> method;
-    if (cin.fail() || method < 1 || method > 4) {
-        cerr << "Error: Invalid method number. Please enter a number between 1 and 4." << endl;
+    if (cin.fail() || method < 1 || method > 5) {
+        cerr << "Error: Invalid method number. Please enter a number between 1 and 5." << endl;
         return -1;
     }
 
@@ -46,7 +48,7 @@ int main() {
             errorMethod = new Entropy();
             break;
         default:
-            errorMethod = new MAD();
+            errorMethod = new SSIM();
             break;
     }
 
