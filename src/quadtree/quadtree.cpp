@@ -38,7 +38,7 @@ void QuadTree::construct() {
         node->childrenNode[3] = new Node(node->x + halfW, node->y + halfH, node->width - halfW, node->height - halfH); // BR
 
         for (auto* child : node->childrenNode) {
-            q.push({child, depth + 1});
+            q.push({child, tempdepth + 1});
         }
     }
 }
