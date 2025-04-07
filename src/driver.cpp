@@ -33,18 +33,22 @@ int main(){
         cerr << "Error: " << e.what() << endl;
         return -1;
     }
+    EMM* errorMethod = nullptr;
     switch(method) {
         case 1:
-            EMM& errorMethod = new MAD();
+            errorMethod = new MAD();
             break;
         case 2:
-            EMM& errorMethod = new MPD();
+            errorMethod = new MPD();
             break;
         case 3:
-            EMM& errorMethod = new Variance();
+            errorMethod = new Variance();
             break;
         case 4:
-            EMM& errorMethod = new Entropy();
+            errorMethod = new Entropy();
+            break;
+        default:
+            errorMethod = new MAD();
             break;
     }
     cout << "Enter threshold:";
@@ -81,8 +85,7 @@ int main(){
         return -1;
     }
     cout << "Enter output file path: " << endl;
-    cin >> outputFilePath;
-    QuadTree quadTree(inputImage, errorMethod, threshold, minBlockSize);
+    QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize);
 
     quadTree.construct();
     Image output = inputImage;
