@@ -66,7 +66,6 @@ int main() {
         delete errorMethod;
         return -1;
     }
-    bool usingCompressionRatio = false;
     cout << "Enter compression ratio: ";
     double compressionRatio;
     cin >> compressionRatio;
@@ -75,22 +74,22 @@ int main() {
         delete errorMethod;
         return -1;
     }
-    else if (compressionRatio != 0){
-        usingCompressionRatio = true;
-    }
-
     cout << "Enter output file path: ";
     cin >> outputFilePath;
-    if (!usingCompressionRatio){
-        QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize);
-        quadTree.construct();
-    } else{
-        QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, compressionRatio);
-        quadTree.construct();
-    }
+    double timeStart = clock();
     Image output = inputImage;
+    QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, compressionRatio);
+    quadTree.construct();
     quadTree.render(output);
     output.save(outputFilePath);
+    double timeEnd = clock();
+    double timeElapsed = (timeEnd - timeStart) / CLOCKS_PER_SEC;
+    cout << "Time taken for compression: " << timeElapsed << " seconds" << endl;
+    cout << "Initial image size: " << inputImage.getFileSize() << " bytes" << endl;
+    cout << "Compressed image size: " << output.getFileSize() << " bytes" << endl;
+    cout << "Compression ratio: " << (double)inputImage.getFileSize() / output.getFileSize() << endl;
+    cout << "Depth of QuadTree: " << quadTree.getDepth() << endl;
+    cout << "Total nodes: " << quadTree.getTotalNodes() << endl;
     cout << "Image saved to: " << outputFilePath << endl;
 
     delete errorMethod;
