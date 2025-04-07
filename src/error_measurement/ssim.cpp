@@ -101,7 +101,7 @@ double SSIM::computeBlockError(const Image& refImg, int x, int y, int width, int
     double ssimG = computeChannelSSIM(sumGRef, sumGTest, sumGRef2, sumGTest2, sumGRefTest, count);
     double ssimB = computeChannelSSIM(sumBRef, sumBTest, sumBRef2, sumBTest2, sumBRefTest, count);
     
-    return (ssimR + ssimG + ssimB) / 3.0;
+    return 1 - ((ssimR + ssimG + ssimB) / 3.0);
 }
 
 bool SSIM::ThresholdWithinBound(double threshold)

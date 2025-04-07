@@ -19,7 +19,6 @@ int main() {
         cerr << "Error loading image: " << inputFilePath << endl;
         return 1;
     }
-
     cout << "1. QuadTree Compression with Mean Absolute Deviation" << endl;
     cout << "2. QuadTree Compression with Max Pixel Difference" << endl;
     cout << "3. QuadTree Compression with Variance" << endl;
@@ -35,9 +34,6 @@ int main() {
 
     EMM* errorMethod = nullptr;
     switch(method) {
-        case 1:
-            errorMethod = new MAD();
-            break;
         case 2:
             errorMethod = new MPD();
             break;
@@ -47,8 +43,11 @@ int main() {
         case 4:
             errorMethod = new Entropy();
             break;
-        default:
+        case 5:
             errorMethod = new SSIM();
+            break;
+        default:
+            errorMethod = new MAD();
             break;
     }
 
@@ -67,21 +66,28 @@ int main() {
         delete errorMethod;
         return -1;
     }
-
+    bool usingCompressionRatio = false;
     cout << "Enter compression ratio: ";
     double compressionRatio;
     cin >> compressionRatio;
-    if (cin.fail() || compressionRatio <= 0) {
+    if (cin.fail() || compressionRatio < 0 || compressionRatio > 1) {
         cerr << "Error: Compression ratio must be positive." << endl;
         delete errorMethod;
         return -1;
     }
+    else if (compressionRatio != 0){
+        usingCompressionRatio = true;
+    }
 
     cout << "Enter output file path: ";
     cin >> outputFilePath;
-
-    QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize);
-    quadTree.construct();
+    if (!usingCompressionRatio){
+        QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize);
+        quadTree.construct();
+    } else{
+        QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, compressionRatio);
+        quadTree.construct();
+    }
     Image output = inputImage;
     quadTree.render(output);
     output.save(outputFilePath);

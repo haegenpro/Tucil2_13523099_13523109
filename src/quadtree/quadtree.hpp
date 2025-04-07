@@ -23,6 +23,7 @@ private:
     
 public:
     QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize);
+    QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, double compressionRatio);
     ~QuadTree();
     void construct();
     void render(Image& output) const;

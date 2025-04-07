@@ -2,6 +2,10 @@
 
 QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize) : image(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize) {}
 
+QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, double compressionRatio) : image(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize) {
+    this->threshold = threshold * compressionRatio;
+}
+
 QuadTree::~QuadTree() {
     delete root;
 }
