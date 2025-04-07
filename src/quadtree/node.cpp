@@ -19,5 +19,5 @@ bool Node::isSplit() const {
 }
 
 bool Node::canSplit(int minBlockSize) const {
-    return (width * height >= minBlockSize);
+    return (width * height >= minBlockSize) && (width >= 2) && (height >= 2);
 }
