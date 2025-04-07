@@ -1,4 +1,4 @@
-#include "../quadtree/quadtree.hpp"
+#include "quadtree/quadtree.hpp"
 #include "error_measurement/mad.hpp"
 #include "error_measurement/mpd.hpp"
 #include "error_measurement/variance.hpp"
