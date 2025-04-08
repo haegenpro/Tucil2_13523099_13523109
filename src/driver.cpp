@@ -95,7 +95,7 @@ int main() {
     cout << "Depth of QuadTree: " << quadTree.getDepth() << endl;
     cout << "Total nodes: " << quadTree.getTotalNodes() << endl;
     cout << "Image saved to: " << outputFilePath << endl;
-
+    cout << "GIF saved to: " << gifFilePath << endl;
     delete errorMethod;
     return 0;
 }
