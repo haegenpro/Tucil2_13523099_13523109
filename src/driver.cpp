@@ -8,7 +8,7 @@
 using namespace std;
 
 int main() {
-    string inputFilePath, outputFilePath;
+    string inputFilePath, outputFilePath, gifFilePath;
     double threshold;
     int minBlockSize;
 
@@ -76,9 +76,10 @@ int main() {
     }
     cout << "Enter output file path: ";
     cin >> outputFilePath;
+    cout << "Enter GIF file path: ";
+    cin >> gifFilePath;
     double timeStart = clock();
-    string gifOutputPath = "../quadtree_build.gif";
-    Animation gif(gifOutputPath, inputImage.getWidth(), inputImage.getHeight());
+    Animation gif(gifFilePath, inputImage.getWidth(), inputImage.getHeight());
     Image output = inputImage;
     QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, &gif);
     quadTree.construct();
