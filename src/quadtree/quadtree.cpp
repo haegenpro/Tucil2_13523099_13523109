@@ -1,10 +1,6 @@
 #include "quadtree.hpp"
 
-QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, double compressionRatio) : image(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize) {
-    if (compressionRatio != 0){
-        this->threshold = threshold * compressionRatio;
-    }
-}
+QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation) : image(image), frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), animation(animation){ }
 
 QuadTree::~QuadTree() {
     delete root;
@@ -12,26 +8,24 @@ QuadTree::~QuadTree() {
 
 void QuadTree::construct() {
     root = new Node(0, 0, image.getWidth(), image.getHeight());
+    root->avgColor = meanColorBlock(root->x, root->y, root->width, root->height);
 
     std::queue<std::pair<Node*, int>> q;
     q.push({root, 0});
 
-    while (!q.empty()) {
-        auto [node, tempdepth] = q.front(); q.pop();
-        nodeCount++;
-        depth = std::max(depth, tempdepth);
+    nodeCount = 1;
+    depth = 0;
 
-        node->avgColor = meanColorBlock(node->x, node->y, node->width, node->height);
+    while (!q.empty()) {
+        auto [node, currentDepth] = q.front(); q.pop();
+        depth = std::max(depth, currentDepth);
 
         double error = errorMethod.computeBlockError(image, node->x, node->y, node->width, node->height);
 
-        if (error <= threshold || !node->canSplit(minBlockSize)) {
-            node->isLeafNode = true;
+        if (errorMethod.isWithinThreshold(error, threshold) || !node->canSplit(minBlockSize)) {
             leafCount++;
             continue;
         }
-
-        node->isLeafNode = false;
 
         int halfW = node->width / 2;
         int halfH = node->height / 2;
@@ -42,34 +36,73 @@ void QuadTree::construct() {
         node->childrenNode[3] = new Node(node->x + halfW, node->y + halfH, node->width - halfW, node->height - halfH); // BR
 
         for (auto* child : node->childrenNode) {
-            q.push({child, tempdepth + 1});
+            child->avgColor = meanColorBlock(child->x, child->y, child->width, child->height);
+            q.push({child, currentDepth + 1});
+            nodeCount++;
         }
     }
 }
 
-void QuadTree::render(Image& output) const {
-    auto draw = [&](const Node* node, auto&& self) -> void {
-        if (node->isLeafNode) {
-            for (int i = node->x; i < node->x + node->width; ++i) {
-                for (int j = node->y; j < node->y + node->height; ++j) {
-                    output.setPixelAt(i, j, node->avgColor);
+void QuadTree::generateAnimation() {
+    if (!animation || !root) return;
+
+    std::queue<const Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        int size = q.size();
+
+        for (int i = 0; i < size; i++) {
+            const Node* node = q.front(); q.pop();
+
+            for (int j = node->x; j < node->x + node->width && j < frame.getWidth(); j++) {
+                for (int k = node->y; k < node->y + node->height && k < frame.getHeight(); k++) {
+                    frame.setPixelAt(j, k, node->avgColor);
+                }
+            }
+            for (auto* child : node->childrenNode) {
+                if (child) q.push(child);
+            }
+        }
+
+        animation->addFrame(frame);
+    }
+}
+
+void QuadTree::render(Image& output) {
+    if (!root) return;
+
+    std::queue<const Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        const Node* node = q.front();
+        q.pop();
+
+        bool hasChildren = node->childrenNode[0] != nullptr;
+
+        if (!hasChildren) {
+            for (int j = node->x; j < node->x + node->width && j < output.getWidth(); j++) {
+                for (int k = node->y; k < node->y + node->height && k < output.getHeight(); k++) {
+                    output.setPixelAt(j, k, node->avgColor);
                 }
             }
         } else {
             for (auto* child : node->childrenNode) {
-                if (child) self(child, self);
+                if (child != nullptr) {
+                    q.push(child);
+                }
             }
         }
-    };
-    draw(root, draw);
+    }
 }
 
 Pixel QuadTree::meanColorBlock(int x, int y, int width, int height){
     long long r = 0, g = 0, b = 0;
     int count = width * height;
 
-    for (int i = x; i < x + width; ++i) {
-        for (int j = y; j < y + height; ++j) {
+    for (int i = x; i < x + width; i++) {
+        for (int j = y; j < y + height; j++) {
             Pixel p = image.getPixelAt(i, j);
             r += p.getRed();
             g += p.getGreen();
@@ -82,3 +115,4 @@ Pixel QuadTree::meanColorBlock(int x, int y, int width, int height){
 int QuadTree::getTotalNodes() const { return nodeCount; }
 int QuadTree::getTotalLeaves() const { return leafCount; }
 int QuadTree::getDepth() const { return depth; }
+

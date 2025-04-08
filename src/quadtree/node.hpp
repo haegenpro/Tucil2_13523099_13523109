@@ -10,14 +10,12 @@ public:
     int y;
     int width;
     int height;
-    bool isLeafNode;
     Pixel avgColor;
 
     std::array<Node*, 4> childrenNode;
 
     Node(int x, int y, int width, int height);
     ~Node();
-    bool isSplit() const;
     bool canSplit(int minBlockSize) const;
 };
 

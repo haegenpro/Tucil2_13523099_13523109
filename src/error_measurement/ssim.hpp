@@ -12,6 +12,7 @@ private:
 public:
     double computeBlockError(const Image& refImg, int x, int y, int width, int height) const override;
     bool ThresholdWithinBound(double threshold) override;
+    bool isWithinThreshold(double error, double threshold) const override;
 };
 
 #endif

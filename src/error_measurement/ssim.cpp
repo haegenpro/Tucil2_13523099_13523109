@@ -29,8 +29,8 @@ double SSIM::meanColorBlock(const Image& image, int x, int y, int width, int hei
     long long sum = 0;
     const int count = width * height;
     
-    for (int j = y; j < y + height; ++j) {
-        for (int i = x; i < x + width; ++i) {
+    for (int j = y; j < y + height; j++) {
+        for (int i = x; i < x + width; i++) {
             Pixel p = image.getPixelAt(i, j);
             switch(c) {
                 case Channel::RED:
@@ -67,8 +67,8 @@ double SSIM::computeBlockError(const Image& refImg, int x, int y, int width, int
     double sumGRef = 0.0, sumGTest = 0.0, sumGRef2 = 0.0, sumGTest2 = 0.0, sumGRefTest = 0.0;
     double sumBRef = 0.0, sumBTest = 0.0, sumBRef2 = 0.0, sumBTest2 = 0.0, sumBRefTest = 0.0;
 
-    for (int j = y; j < y + height; ++j) {
-        for (int i = x; i < x + width; ++i) {
+    for (int j = y; j < y + height; j++) {
+        for (int i = x; i < x + width; i++) {
             Pixel pref = refImg.getPixelAt(i, j);
             double rRef = static_cast<double>(pref.getRed());
             double rTest = static_cast<double>(meanPixel.getRed());
@@ -107,4 +107,8 @@ double SSIM::computeBlockError(const Image& refImg, int x, int y, int width, int
 bool SSIM::ThresholdWithinBound(double threshold)
 {
     return (threshold >= 0.0 && threshold <= 1.0);
+}
+
+bool SSIM::isWithinThreshold(double error, double threshold) const {
+    return error >= threshold;
 }

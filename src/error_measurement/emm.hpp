@@ -13,7 +13,7 @@ public:
 
     virtual double computeBlockError(const Image& image, int x, int y, int width, int height) const = 0;
     virtual bool ThresholdWithinBound(double threshold) = 0;
-    virtual bool isWithinThreshold(double error, double threshold);
+    virtual bool isWithinThreshold(double error, double threshold) const;
     virtual ~EMM() = default;
 };
 

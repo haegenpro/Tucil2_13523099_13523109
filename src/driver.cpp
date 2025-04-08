@@ -77,10 +77,12 @@ int main() {
     cout << "Enter output file path: ";
     cin >> outputFilePath;
     double timeStart = clock();
+    string gifOutputPath = "../quadtree_build.gif";
+    Animation gif(gifOutputPath, inputImage.getWidth(), inputImage.getHeight());
     Image output = inputImage;
-    QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, compressionRatio);
+    QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, &gif);
     quadTree.construct();
-    quadTree.render(output);
+    quadTree.generateAnimation();
     output.save(outputFilePath);
     double timeEnd = clock();
     double timeElapsed = (timeEnd - timeStart) / CLOCKS_PER_SEC;
