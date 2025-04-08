@@ -83,6 +83,7 @@ int main() {
     QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, &gif);
     quadTree.construct();
     quadTree.generateAnimation();
+    quadTree.render(output);
     output.save(outputFilePath);
     double timeEnd = clock();
     double timeElapsed = (timeEnd - timeStart) / CLOCKS_PER_SEC;
