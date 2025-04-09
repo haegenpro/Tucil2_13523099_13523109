@@ -43,3 +43,14 @@ double Entropy::computeBlockError(const Image& image, int x, int y, int width, i
 bool Entropy::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 8;
 }
+
+std::string Entropy::identify() const {
+    return "Entropy";
+}
+
+double Entropy::getLowerBound() const {
+    return 0;
+}
+double Entropy::getUpperBound() const {
+    return 8;
+}
