@@ -1,28 +1,5 @@
 #include "mad.hpp"
 
-// double MAD::meanColorBlock(const Image& image, int x, int y, int width, int height, Channel c) const {
-//     long long sum = 0;
-//     int count = width * height;
-
-//     for (int i = x; i < x + width; i++) {
-//         for (int j = y; j < y + height; j++) {
-//             Pixel p = image.getPixelAt(i, j);
-//             switch(c) {
-//                 case Channel::RED:
-//                     sum += p.getRed();
-//                     break;
-//                 case Channel::GREEN:
-//                     sum += p.getGreen();
-//                     break;
-//                 case Channel::BLUE:
-//                     sum += p.getBlue();
-//                     break;
-//             }
-//         }
-//     }
-//     return static_cast<double> (sum) / count;
-// }
-
 double MAD::computeBlockError(const Image& image, int x, int y, int width, int height) const {
     int count = width * height;
 

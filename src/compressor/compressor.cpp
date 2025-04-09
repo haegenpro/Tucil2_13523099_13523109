@@ -56,7 +56,6 @@ void Compressor::targetCompress() {
         quadtree.setThreshold(rightBound);
         return;
     }
-
     double bestError = std::numeric_limits<double>::max();
     double bestThreshold = quadtree.getThreshold();
 
