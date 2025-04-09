@@ -57,6 +57,8 @@ bool Image::save(const fs::path& outPath) const {
     int stride = width * channels;
 
     if (ext == ".png") {
+        stbi_write_png_compression_level = 9;
+        stbi_write_force_png_filter = 4;   
         return stbi_write_png(outPath.string().c_str(), width, height, channels, data, stride);
     } else if (ext == ".jpg" || ext == ".jpeg") {
         return stbi_write_jpg(outPath.string().c_str(), width, height, channels, data, 75);
@@ -124,4 +126,31 @@ void Image::setPixelAt(int x, int y, Pixel p) {
     if (channels == 4) {
         data[index + 3] = p.getAlpha();
     }
+}
+
+void Image::countBytes(void* context, void* data, int size) {
+    size_t* byteCount = static_cast<size_t*>(context);
+    *byteCount += static_cast<size_t>(size);
+}
+
+void Image::setFileSize(std::uintmax_t size) {
+    fileSize = size;
+}
+
+uintmax_t Image::estimateNewFileSize() const {
+    uintmax_t byteCount = 0;
+
+    if (extension == ".png") {
+        int stride = width * channels;
+        stbi_write_png_compression_level = 9;
+        stbi_write_force_png_filter = 4;
+        stbi_write_png_to_func(countBytes, &byteCount, width, height, channels, data, stride);
+    } else if (extension == ".jpeg" || extension == ".jpg") {
+        stbi_write_jpg_to_func(countBytes, &byteCount, width, height, channels, data, 75);
+    } else {
+        std::cerr << "Unsupported file format for saving: " << extension << std::endl;
+        return 0;
+    }
+    
+    return byteCount;
 }

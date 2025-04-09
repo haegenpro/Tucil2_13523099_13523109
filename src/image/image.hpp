@@ -33,6 +33,9 @@ public:
     std::uintmax_t getFileSize() const; 
     Pixel getPixelAt(int x, int y) const;
     void setPixelAt(int x, int y, Pixel p);
+    static void countBytes(void *context, void *data, int size);
+    void setFileSize(std::uintmax_t size);
+    uintmax_t estimateNewFileSize() const;
 };
 
 #endif
