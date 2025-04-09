@@ -25,28 +25,28 @@ double SSIM::computeChannelSSIM(double sumRef, double sumTest,
     return numerator / denominator;
 }
 
-double SSIM::meanColorBlock(const Image& image, int x, int y, int width, int height, Channel c) const {
-    long long sum = 0;
-    const int count = width * height;
+// double SSIM::meanColorBlock(const Image& image, int x, int y, int width, int height, Channel c) const {
+//     long long sum = 0;
+//     const int count = width * height;
     
-    for (int j = y; j < y + height; j++) {
-        for (int i = x; i < x + width; i++) {
-            Pixel p = image.getPixelAt(i, j);
-            switch(c) {
-                case Channel::RED:
-                    sum += p.getRed();
-                    break;
-                case Channel::GREEN:
-                    sum += p.getGreen();
-                    break;
-                case Channel::BLUE:
-                    sum += p.getBlue();
-                    break;
-            }
-        }
-    }
-    return static_cast<double>(sum) / count;
-}
+//     for (int j = y; j < y + height; j++) {
+//         for (int i = x; i < x + width; i++) {
+//             Pixel p = image.getPixelAt(i, j);
+//             switch(c) {
+//                 case Channel::RED:
+//                     sum += p.getRed();
+//                     break;
+//                 case Channel::GREEN:
+//                     sum += p.getGreen();
+//                     break;
+//                 case Channel::BLUE:
+//                     sum += p.getBlue();
+//                     break;
+//             }
+//         }
+//     }
+//     return static_cast<double>(sum) / count;
+// }
 
 double SSIM::computeBlockError(const Image& refImg, int x, int y, int width, int height) const
 {
@@ -101,7 +101,7 @@ double SSIM::computeBlockError(const Image& refImg, int x, int y, int width, int
     double ssimG = computeChannelSSIM(sumGRef, sumGTest, sumGRef2, sumGTest2, sumGRefTest, count);
     double ssimB = computeChannelSSIM(sumBRef, sumBTest, sumBRef2, sumBTest2, sumBRefTest, count);
     
-    return 1 - ((ssimR + ssimG + ssimB) / 3.0);
+    return ((ssimR + ssimG + ssimB) / 3.0);
 }
 
 bool SSIM::ThresholdWithinBound(double threshold)
