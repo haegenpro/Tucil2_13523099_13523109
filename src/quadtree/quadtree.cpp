@@ -1,6 +1,7 @@
 #include "quadtree.hpp"
 
-QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation) : image(image), frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), animation(animation){ }
+QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation) : image(image), 
+frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), animation(animation){ }
 
 QuadTree::~QuadTree() {
     delete root;
