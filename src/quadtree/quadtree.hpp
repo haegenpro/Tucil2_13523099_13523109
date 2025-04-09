@@ -28,6 +28,9 @@ private:
 public:
     QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation);
     ~QuadTree();
+    void setThreshold(double threshold);
+    double getThreshold() const;
+    void clearTree();
     void construct();
     void generateAnimation();
     void render(Image& output);
