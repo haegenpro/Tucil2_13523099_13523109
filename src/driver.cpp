@@ -88,7 +88,7 @@ int main() {
     cout << "Time taken for compression: " << timeElapsed << " seconds" << endl;
     cout << "Initial image size: " << compressor.inputImage.getFileSize() << " bytes" << endl;
     cout << "Compressed image size: " << compressor.outputImage.getFileSize() << " bytes" << endl;
-    cout << "Compression ratio: " << (double) 1 - compressor.outputImage.getFileSize() / compressor.originalSize * 100 << "%" << endl;
+    cout << "Compression percentage: " << (1.0 - static_cast<double>(compressor.outputImage.getFileSize()) / compressor.originalSize) * 100 << "%" << endl;
     cout << "Depth of QuadTree: " << compressor.quadtree.getDepth() << endl;
     cout << "Total nodes: " << compressor.quadtree.getTotalNodes() << endl;
     cout << "Image saved to: " << compressor.outputPath << endl;
