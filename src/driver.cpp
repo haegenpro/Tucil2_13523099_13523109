@@ -92,7 +92,7 @@ int main() {
     cout << "Initial image size: " << inputImage.getFileSize() << " bytes" << endl;
     output.setFileSize(output.estimateNewFileSize());
     cout << "Compressed image size: " << output.getFileSize() << " bytes" << endl;
-    cout << "Compression ratio: " << (double)output.getFileSize() / inputImage.getFileSize() * 100 << "%" << endl;
+    cout << "Compression ratio: " << (double) (1 - output.getFileSize() / inputImage.getFileSize()) * 100 << "%" << endl;
     cout << "Depth of QuadTree: " << quadTree.getDepth() << endl;
     cout << "Total nodes: " << quadTree.getTotalNodes() << endl;
     cout << "Image saved to: " << outputFilePath << endl;
