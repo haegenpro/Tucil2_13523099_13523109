@@ -1,13 +1,49 @@
 #include "quadtree.hpp"
 
-QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation) : image(image), 
-frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), animation(animation){ }
+QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation) : image(image), frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), animation(animation), root(nullptr) { }
 
 QuadTree::~QuadTree() {
-    delete root;
+    clearTree();
+}
+
+void QuadTree::setThreshold(double threshold) {
+    this->threshold = threshold;
+}
+
+double QuadTree::getThreshold() const {
+    return threshold;
+}
+
+void QuadTree::clearTree() {
+    if (!root) return;
+
+    std::queue<Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        Node* current = q.front();
+        q.pop();
+
+        for (int i = 0; i < 4; ++i) {
+            if (current->childrenNode[i]) {
+                q.push(current->childrenNode[i]);
+                current->childrenNode[i] = nullptr;
+            }
+        }
+
+        delete current;
+    }
+
+    root = nullptr;
+    depth = 0;
+    nodeCount = 0;
+    leafCount = 0;
 }
 
 void QuadTree::construct() {
+    if (root) {
+        clearTree();
+    }
     root = new Node(0, 0, image.getWidth(), image.getHeight());
     root->avgColor = meanColorBlock(root->x, root->y, root->width, root->height);
 

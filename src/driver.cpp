@@ -4,6 +4,7 @@
 #include "error_measurement/variance.hpp"
 #include "error_measurement/entropy.hpp"
 #include "error_measurement/ssim.hpp"
+#include "compressor/compressor.hpp"
 
 using namespace std;
 
@@ -66,37 +67,34 @@ int main() {
         delete errorMethod;
         return -1;
     }
-    cout << "Enter compression ratio: ";
-    double compressionRatio;
-    cin >> compressionRatio;
-    if (cin.fail() || compressionRatio < 0 || compressionRatio > 1) {
+    cout << "Enter target compression ratio: ";
+    double targetCompression;
+    cin >> targetCompression;
+    if (cin.fail() || targetCompression < 0 || targetCompression > 1) {
         cerr << "Error: Compression ratio must be positive." << endl;
         delete errorMethod;
         return -1;
     }
     cout << "Enter output file path: ";
     cin >> outputFilePath;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     cout << "Enter GIF file path: ";
-    cin >> gifFilePath;
-    double timeStart = clock();
-    Animation gif(gifFilePath, inputImage.getWidth(), inputImage.getHeight());
-    Image output = inputImage;
-    QuadTree quadTree(inputImage, *errorMethod, threshold, minBlockSize, &gif);
-    quadTree.construct();
-    quadTree.generateAnimation();
-    quadTree.render(output);
-    output.save(outputFilePath);
-    double timeEnd = clock();
-    double timeElapsed = (timeEnd - timeStart) / CLOCKS_PER_SEC;
+    getline(cin, gifFilePath);
+
+    Compressor compressor(inputImage, outputFilePath, gifFilePath, threshold, minBlockSize, targetCompression, *errorMethod);
+    compressor.compress();
+
+    double timeElapsed = (compressor.timeEnd - compressor.timeStart) / CLOCKS_PER_SEC;
     cout << "Time taken for compression: " << timeElapsed << " seconds" << endl;
-    cout << "Initial image size: " << inputImage.getFileSize() << " bytes" << endl;
-    output.setFileSize(output.estimateNewFileSize());
-    cout << "Compressed image size: " << output.getFileSize() << " bytes" << endl;
-    cout << "Compression ratio: " << (double) (1 - output.getFileSize() / inputImage.getFileSize()) * 100 << "%" << endl;
-    cout << "Depth of QuadTree: " << quadTree.getDepth() << endl;
-    cout << "Total nodes: " << quadTree.getTotalNodes() << endl;
-    cout << "Image saved to: " << outputFilePath << endl;
-    cout << "GIF saved to: " << gifFilePath << endl;
+    cout << "Initial image size: " << compressor.inputImage.getFileSize() << " bytes" << endl;
+    cout << "Compressed image size: " << compressor.outputImage.getFileSize() << " bytes" << endl;
+    cout << "Compression ratio: " << (double) 1 - compressor.outputImage.getFileSize() / compressor.originalSize * 100 << "%" << endl;
+    cout << "Depth of QuadTree: " << compressor.quadtree.getDepth() << endl;
+    cout << "Total nodes: " << compressor.quadtree.getTotalNodes() << endl;
+    cout << "Image saved to: " << compressor.outputPath << endl;
+    if (compressor.animation != nullptr) {
+        cout << "GIF saved to: " << compressor.gifPath << endl;
+    }
     delete errorMethod;
     return 0;
 }

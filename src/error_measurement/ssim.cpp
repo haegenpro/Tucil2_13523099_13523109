@@ -112,3 +112,15 @@ bool SSIM::ThresholdWithinBound(double threshold)
 bool SSIM::isWithinThreshold(double error, double threshold) const {
     return error >= threshold;
 }
+
+std::string SSIM::identify() const {
+    return "SSIM";
+}
+
+double SSIM::getLowerBound() const {
+    return 0;
+}
+
+double SSIM::getUpperBound() const {
+    return 1;
+}

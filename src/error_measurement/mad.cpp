@@ -53,3 +53,15 @@ double MAD::computeBlockError(const Image& image, int x, int y, int width, int h
 bool MAD::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 127.5;
 }
+
+std::string MAD::identify() const {
+    return "MAD";
+}
+
+double MAD::getLowerBound() const {
+    return 0;
+}
+
+double MAD::getUpperBound() const {
+    return 127.5;
+}

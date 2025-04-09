@@ -33,3 +33,15 @@ double MPD::computeBlockError(const Image& image, int x, int y, int width, int h
 bool MPD::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 255;
 }
+
+std::string MPD::identify() const {
+    return "MPD";
+}
+
+double MPD::getLowerBound() const {
+    return 0;
+}
+
+double MPD::getUpperBound() const {
+    return 255;
+}

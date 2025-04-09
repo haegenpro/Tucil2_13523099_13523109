@@ -69,3 +69,15 @@ double Variance::computeBlockError(const Image& image, int x, int y, int width, 
 bool Variance::ThresholdWithinBound(double threshold) {
     return threshold >= 0 && threshold <= 16256.25;
 }
+
+std::string Variance::identify() const {
+    return "Variance";
+}
+
+double Variance::getLowerBound() const {
+    return 0;
+}
+
+double Variance::getUpperBound() const {
+    return 16256.25;
+}
