@@ -14,5 +14,7 @@ Node::~Node() {
 }
 
 bool Node::canSplit(int minBlockSize) const {
-    return (width * height >= minBlockSize) && (width >= 2) && (height >= 2);
+    int halfWidth = width / 2;
+    int halfHeight = height / 2;
+    return (halfWidth * halfHeight >= minBlockSize) && (width >= 2) && (height >= 2);
 }
