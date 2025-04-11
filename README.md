@@ -10,6 +10,53 @@ In addition to its core compression capabilities, the program offers advanced bo
 - **Target Compression Percentage:** Users can specify a desired reduction in file size. The algorithm then employs a binary search method to adjust the quadtree threshold optimally, ensuring that the compressed image meets the targeted compression ratio.
 - **GIF Visualization:** An animated GIF is generated to visually document the compression process. This feature provides a dynamic illustration of the quadtree's progressive subdivision and merging, offering valuable insights into how the algorithm refines the image.
 
+## Project Structure
+```ssh
+.
+├── LICENSE
+├── README.md
+├── bin
+│   └── dpw_quadtree_program.exe
+├── doc
+│   └── Tucil2_13523099_13523109.pdf
+├── src
+│   ├── compressor
+│   │   ├── compressor.cpp
+│   │   └── compressor.hpp
+│   ├── dpw_quadtree_program.cpp
+│   ├── error_measurement
+│   │   ├── emm.cpp
+│   │   ├── emm.hpp
+│   │   ├── entropy.cpp
+│   │   ├── entropy.hpp
+│   │   ├── mad.cpp
+│   │   ├── mad.hpp
+│   │   ├── mpd.cpp
+│   │   ├── mpd.hpp
+│   │   ├── ssim.cpp
+│   │   ├── ssim.hpp
+│   │   ├── variance.cpp
+│   │   └── variance.hpp
+│   ├── image
+│   │   ├── animation.cpp
+│   │   ├── animation.hpp
+│   │   ├── image.cpp
+│   │   └── image.hpp
+│   ├── include
+│   │   ├── gif.h
+│   │   ├── stb_image.h
+│   │   └── stb_image_write.h
+│   ├── pixel
+│   │   ├── pixel.cpp
+│   │   └── pixel.hpp
+│   └── quadtree
+│       ├── node.cpp
+│       ├── node.hpp
+│       ├── quadtree.cpp
+│       └── quadtree.hpp
+└── test
+```
+
 ## Requirements & Installation
 
 ### Requirements
