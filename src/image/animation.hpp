@@ -2,7 +2,7 @@
 #define _ANIMATION_H_
 
 #include <string>
-#include <memory>  // use smart pointers
+#include <memory>
 #include "image.hpp"
 
 class Animation {

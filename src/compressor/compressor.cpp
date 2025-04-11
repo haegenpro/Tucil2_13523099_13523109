@@ -1,11 +1,5 @@
 #include "compressor.hpp"
 
-// Compressor::Compressor(const Image& image, const std::string& outputPath, const std::string& gifPath,
-//                        double threshold, int minBlockSize, double targetCompression, const EMM& errorMethod)
-//     : outputPath(outputPath), gifPath(gifPath), targetCompression(targetCompression), errorMethod(errorMethod), inputImage(image),
-//       outputImage(image), originalSize(image.getFileSize()), animation(gifPath.empty() ? nullptr : new Animation(gifPath, image.getWidth(), image.getHeight())),
-//       quadtree(inputImage, errorMethod, threshold, minBlockSize, animation) { }
-
 Compressor::Compressor(const Image& image, const std::string& outputPath, const std::string& gifPath, double threshold, int minBlockSize, double targetCompression, const EMM& errorMethod)
         : outputPath(outputPath), gifPath(gifPath), targetCompression(targetCompression), errorMethod(errorMethod), inputImage(image),
           outputImage(image), originalSize(image.getFileSize()), animation(nullptr),
@@ -24,9 +18,6 @@ void Compressor::compress() {
         targetCompress();
     }
     quadtree.construct();
-    // if (animation != nullptr) {
-    //     quadtree.generateAnimation();
-    // }
     quadtree.render(outputImage);
     outputImage.save(outputPath);
     if (!gifPath.empty()) {

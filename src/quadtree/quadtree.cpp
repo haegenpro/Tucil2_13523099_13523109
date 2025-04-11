@@ -3,9 +3,6 @@
 QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize) : image(image), 
 frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), root(nullptr) { }
 
-// QuadTree::QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation) : image(image), 
-// frame(image), errorMethod(errorMethod), threshold(threshold), minBlockSize(minBlockSize), animation(animation), root(nullptr) { }
-
 QuadTree::~QuadTree() {
     clearTree();
     if (animation) {
@@ -13,10 +10,6 @@ QuadTree::~QuadTree() {
         animation = nullptr;
     }
 }
-
-// QuadTree::~QuadTree() {
-//     clearTree();
-// }
 
 void QuadTree::setThreshold(double threshold) {
     this->threshold = threshold;
@@ -121,31 +114,6 @@ void QuadTree::generateAnimation(const std::string& gifPath) {
         animation->addFrame(frame);
     }
 }
-// void QuadTree::generateAnimation() {
-//     if (!animation || !root) return;
-
-//     std::queue<const Node*> q;
-//     q.push(root);
-
-//     while (!q.empty()) {
-//         int size = q.size();
-
-//         for (int i = 0; i < size; i++) {
-//             const Node* node = q.front(); q.pop();
-
-//             for (int j = node->x; j < node->x + node->width && j < frame.getWidth(); j++) {
-//                 for (int k = node->y; k < node->y + node->height && k < frame.getHeight(); k++) {
-//                     frame.setPixelAt(j, k, node->avgColor);
-//                 }
-//             }
-//             for (auto* child : node->childrenNode) {
-//                 if (child) q.push(child);
-//             }
-//         }
-
-//         animation->addFrame(frame);
-//     }
-// }
 
 void QuadTree::render(Image& output) {
     if (!root) return;
