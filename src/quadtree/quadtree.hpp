@@ -26,13 +26,15 @@ private:
     Pixel meanColorBlock(int x, int y, int width, int height);
     
 public:
-    QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation);
+    QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize);
+    // QuadTree(const Image& image, const EMM& errorMethod, double threshold, int minBlockSize, Animation* animation);
     ~QuadTree();
     void setThreshold(double threshold);
     double getThreshold() const;
     void clearTree();
     void construct();
-    void generateAnimation();
+    void generateAnimation(const std::string& gifPath);
+    // void generateAnimation();
     void render(Image& output);
     int getTotalNodes() const;
     int getTotalLeaves() const;

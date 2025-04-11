@@ -50,22 +50,30 @@ bool Image::load(const fs::path& filePath) {
 
 bool Image::save(const fs::path& outPath) const {
     if (!data) {
+        std::cerr << "Error: No image data to save.\n";
         return false;
     }
 
     std::string ext = outPath.extension().string();
     int stride = width * channels;
+    bool success = false;
 
     if (ext == ".png") {
         stbi_write_png_compression_level = 9;
-        stbi_write_force_png_filter = 4;   
-        return stbi_write_png(outPath.string().c_str(), width, height, channels, data, stride);
+        stbi_write_force_png_filter = 4;
+        success = stbi_write_png(outPath.string().c_str(), width, height, channels, data, stride);
     } else if (ext == ".jpg" || ext == ".jpeg") {
-        return stbi_write_jpg(outPath.string().c_str(), width, height, channels, data, 75);
+        success = stbi_write_jpg(outPath.string().c_str(), width, height, channels, data, 75);
     } else {
         std::cerr << "Unsupported file format for saving: " << ext << std::endl;
         return false;
     }
+
+    if (!success) {
+        std::cerr << "Failed to save image to: " << outPath << std::endl;
+    }
+
+    return success;
 }
 
 fs::path Image::getPath() const {
