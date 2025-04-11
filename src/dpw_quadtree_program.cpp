@@ -151,8 +151,6 @@ int main() {
         break;
     }
     
-
-    // Proceed to compress
     Compressor compressor(*inputImage, outputFilePath, gifFilePath, threshold, minBlockSize, targetCompression, *errorMethod);
     compressor.compress();
 
